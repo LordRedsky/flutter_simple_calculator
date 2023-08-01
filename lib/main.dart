@@ -26,6 +26,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String screenText = '0';
+  String? operator;
+  double value1 = 0.0;
+  double value2 = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
               CalculatorButton.Icon(
-                backgroundColor: Theme.of(context).primaryColorLight,
-                foregroundColor: Theme.of(context).primaryColorDark,
+                backgroundColor: Theme.of(context).primaryColorDark,
+                foregroundColor: Theme.of(context).primaryColorLight,
                 text: 'Backspace',
                 icon: Icons.backspace,
                 onTap: () {
@@ -98,121 +101,134 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '7',
                 onTap: () {
                   setState(() {
-                    pressNumber(7);
+                    pressNumber(7.0);
                   });
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '8',
                 onTap: () {
                   setState(() {
-                    pressNumber(8);
+                    pressNumber(8.0);
                   });
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '9',
                 onTap: () {
-                  pressNumber(9);
+                  pressNumber(9.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
-                foregroundColor: Theme.of(context).primaryColorDark,
+                backgroundColor: Theme.of(context).primaryColorDark,
+                foregroundColor: Theme.of(context).primaryColorLight,
                 text: '/',
                 onTap: () {
                   //TODO
+                  setState(() {
+                    value1 = double.parse(screenText);
+                    screenText = '$screenText/';
+                    operator = '/';
+                  });
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '4',
                 onTap: () {
-                  pressNumber(4);
+                  pressNumber(4.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '5',
                 onTap: () {
-                  pressNumber(5);
+                  pressNumber(5.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '6',
                 onTap: () {
-                  pressNumber(6);
+                  pressNumber(6.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
-                foregroundColor: Theme.of(context).primaryColorDark,
+                backgroundColor: Theme.of(context).primaryColorDark,
+                foregroundColor: Theme.of(context).primaryColorLight,
                 text: 'X',
                 onTap: () {
                   //TODO
+                  setState(() {
+                    value1 = double.parse(screenText);
+                    screenText = '$screenText' 'x';
+                    operator = 'X';
+                  });
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '1',
                 onTap: () {
-                  pressNumber(1);
+                  pressNumber(1.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '2',
                 onTap: () {
-                  pressNumber(2);
+                  pressNumber(2.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '3',
                 onTap: () {
-                  pressNumber(3);
+                  pressNumber(3.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
-                foregroundColor: Theme.of(context).primaryColorDark,
+                backgroundColor: Theme.of(context).primaryColorDark,
+                foregroundColor: Theme.of(context).primaryColorLight,
                 text: '-',
                 onTap: () {
                   //TODO
+                  value1 = double.parse(screenText);
+                  operator = '-';
+                  screenText = '$screenText$operator';
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '0',
                 onTap: () {
-                  pressNumber(0);
+                  pressNumber(0.0);
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: Colors.white,
                 foregroundColor: Theme.of(context).primaryColorDark,
                 text: '.',
                 onTap: () {
                   setState(() {
                     if (!screenText.contains('.')) {
-                      screenText = '$screenText';
+                      screenText = '$screenText.';
                     }
                   });
                 },
@@ -223,14 +239,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 text: '=',
                 onTap: () {
                   //TODO
+                  setState(() {
+                    double value = 0.0;
+                    switch (operator) {
+                      case '/':
+                        value = value1 / value2;
+                        screenText = value.toString();
+                        value1 = 0;
+                        value2 = 0;
+                        break;
+                      case 'X':
+                        value = value1 * value2;
+                        screenText = value.toString();
+                        value1 = 0;
+                        value2 = 0;
+                      case '-':
+                        value = value1 - value2;
+                        screenText = value.toString();
+                        value1 = 0;
+                        value2 = 0;
+                      case '+':
+                        value = value1 + value2;
+                        screenText = value.toString();
+                        value1 = 0;
+                        value2 = 0;
+                      default:
+                    }
+                  });
                 },
               ),
               CalculatorButton(
-                backgroundColor: Theme.of(context).primaryColorLight,
-                foregroundColor: Theme.of(context).primaryColorDark,
+                backgroundColor: Theme.of(context).primaryColorDark,
+                foregroundColor: Theme.of(context).primaryColorLight,
                 text: '+',
                 onTap: () {
                   //TODO
+                  value1 = double.parse(screenText);
+                  screenText = '$screenText+';
+                  operator = '+';
                 },
               ),
             ],
@@ -240,8 +286,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void pressNumber(int number) {
+  void pressNumber(double number) {
     setState(() {
+      if (value1 != 0) {
+        value2 = number;
+      }
+
       if (screenText == '0') {
         screenText = '$number';
       } else {
